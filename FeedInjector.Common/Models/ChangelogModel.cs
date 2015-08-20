@@ -7,23 +7,36 @@ using System.Threading.Tasks;
 
 namespace FeedInjector.Common.Models
 {
+    /// <summary>
+    /// Describes action performed by a service
+    /// </summary>
     public class ChangelogModel
     {
-        public string PipelineProvider { get; set; }
+        /// <summary>
+        /// Name of the service that performed the action
+        /// </summary>
+        public string PipelineServiceName { get; private set; }
 
-        public string Action { get; set; }
+        /// <summary>
+        /// Description of the action performed by the service
+        /// </summary>
+        public string PipelineServiceAction { get; private set; }
 
-        public DateTime Timestamp { get; set; }
+        /// <summary>
+        /// When the action was executed
+        /// </summary>
+        public DateTime Timestamp { get; private set; }
+
         public ChangelogModel(string provider, string action )
         {
-            this.PipelineProvider = provider;
-            this.Action = action;
+            this.PipelineServiceName = provider;
+            this.PipelineServiceAction = action;
             this.Timestamp = DateTime.Now;
         }
         public ChangelogModel(IPipelineServiceProvider sp)
         {
-            this.PipelineProvider = sp.ServiceName;
-            this.Action = sp.ServiceDescription;
+            this.PipelineServiceName = sp.Name;
+            this.PipelineServiceAction = sp.Description;
             this.Timestamp = DateTime.Now;
         }
     }

@@ -15,16 +15,16 @@ namespace FeedInjector.Provider.DataFactory
     {
         public const string ContractName = "PullRssFeed";
 
-        public string ServiceName { get { return ContractName; } }
+        public string Name { get { return ContractName; } }
 
         public Dictionary<string, string> Parameters { get; set; }
 
-        public void ProcessPipeline(Common.Models.PipelineModel model)
+        public void ProcessPipeline(Common.Models.WorkflowModel model)
         {
             Console.WriteLine(model.Changelog.Count);
         }   
 
-        public string ServiceDescription
+        public string Description
         {
             get
             {
@@ -33,26 +33,26 @@ namespace FeedInjector.Provider.DataFactory
         }
 
 
-        public List<PipelineParameterModel> ContractInputs
+        public List<ServiceParameterModel> ContractInputs
         {
             get
             {
-                return new List<PipelineParameterModel>()
+                return new List<ServiceParameterModel>()
                 {
-                    new PipelineParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new PipelineParameterModel("imgId", true, "Id de la imagen")
+                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
+                    new ServiceParameterModel("imgId", true, "Id de la imagen")
                 };
             }
         }
 
-        public List<PipelineParameterModel> ContractOutputs
+        public List<ServiceParameterModel> ContractOutputs
         {
             get
             {
-                return new List<PipelineParameterModel>()
+                return new List<ServiceParameterModel>()
                 {
-                    new PipelineParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new PipelineParameterModel("creationId",false, "Id de la imagen")
+                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
+                    new ServiceParameterModel("creationId",false, "Id de la imagen")
                 };
             }
         }

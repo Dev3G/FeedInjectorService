@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Http;
 
@@ -39,7 +40,7 @@ namespace FeedInjector.Controllers
 
             var pipeline = container.GetProvider(plugin.Name);
 
-            return pipeline.ServiceDescription;
+            return pipeline.Description;
         }
 
         //?workflow=PullRssFeed(par1:val1,par2:val2)@PullDataFactoryService(par3:val3,par4:val4)
@@ -54,7 +55,7 @@ namespace FeedInjector.Controllers
         }
 
         [Route("Help")]
-        public string Get()
+        public HttpResponseMessage Get()
         {
             var container = new ServiceProviderCompositionContainer();
             var providers = container.GetAllProviders();
@@ -71,26 +72,29 @@ namespace FeedInjector.Controllers
             foreach(var p in providers)
             {
 
-                response.AppendLine(string.Format("<h2>{0}: {1}</h2>", p.ServiceName, p.ServiceDescription));
+                response.AppendLine(string.Format("<h2>{0}: {1}</h2>", p.Name, p.Description));
 
-                response.AppendLine(string.Format("<h3>[Required inputs]</h3>", p.ServiceName, p.ServiceDescription));
-                foreach(var param in p.ContractInputs.Where(i=>i.Required).ToList())
+                response.AppendLine(string.Format("<h3>[Required inputs]</h3>", p.Name, p.Description));
+                foreach(var param in p.ContractInputs.Where(i=>i.IsRequired).ToList())
                     response.AppendLine(string.Format("{0}: {1}", param.Name, param.Description));
 
-                response.AppendLine(string.Format("<h3>[Optional inputs]</h3>", p.ServiceName, p.ServiceDescription));
-                foreach (var param in p.ContractInputs.Where(i => !i.Required).ToList())
+                response.AppendLine(string.Format("<h3>[Optional inputs]</h3>", p.Name, p.Description));
+                foreach (var param in p.ContractInputs.Where(i => !i.IsRequired).ToList())
                     response.AppendLine(string.Format("{0}: {1}", param.Name, param.Description));
 
-                response.AppendLine(string.Format("<h3>[Required outputs]</h3>", p.ServiceName, p.ServiceDescription));
-                foreach (var param in p.ContractOutputs.Where(i => i.Required).ToList())
+                response.AppendLine(string.Format("<h3>[Required outputs]</h3>", p.Name, p.Description));
+                foreach (var param in p.ContractOutputs.Where(i => i.IsRequired).ToList())
                     response.AppendLine(string.Format("{0}: {1}", param.Name, param.Description));
 
-                response.AppendLine(string.Format("<h3>[Optional outputs]</h3>", p.ServiceName, p.ServiceDescription));
-                foreach (var param in p.ContractOutputs.Where(i => !i.Required).ToList())
+                response.AppendLine(string.Format("<h3>[Optional outputs]</h3>", p.Name, p.Description));
+                foreach (var param in p.ContractOutputs.Where(i => !i.IsRequired).ToList())
                     response.AppendLine(string.Format("{0}: {1}", param.Name, param.Description));
             }
 
-            return response.Replace(Environment.NewLine,"<br />").ToString();
+            var htmlResponse = new HttpResponseMessage();
+            htmlResponse.Content = new StringContent(response.Replace(Environment.NewLine, "<br />").ToString());
+            htmlResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return htmlResponse;
         }
     }
 }

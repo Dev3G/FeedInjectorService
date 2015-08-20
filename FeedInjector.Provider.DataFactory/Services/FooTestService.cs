@@ -16,21 +16,21 @@ namespace FeedInjector.Provider.DataFactory.Services
     {
         public const string ContractName = "FooTestService";
 
-        public string ServiceName { get { return ContractName; } }
+        public string Name { get { return ContractName; } }
 
         public Dictionary<string, string> Parameters { get; set; }
 
-        public void ProcessPipeline(Common.Models.PipelineModel model)
+        public void ProcessPipeline(Common.Models.WorkflowModel model)
         {
             Console.WriteLine(model.Changelog.Count);
         }
 
-        public void Log(Common.Models.PipelineModel model)
+        public void Log(Common.Models.WorkflowModel model)
         {
-            model.Changelog.Add(new Common.Models.ChangelogModel(this.GetType().ToString(), ServiceDescription));
+            model.Changelog.Add(new Common.Models.ChangelogModel(this.GetType().ToString(), Description));
         }
 
-        public string ServiceDescription
+        public string Description
         {
             get
             {
@@ -39,26 +39,26 @@ namespace FeedInjector.Provider.DataFactory.Services
         }
 
 
-        public List<PipelineParameterModel> ContractInputs
+        public List<ServiceParameterModel> ContractInputs
         {
             get
             {
-                return new List<PipelineParameterModel>()
+                return new List<ServiceParameterModel>()
                 {
-                    new PipelineParameterModel("cuerpoId", true, "Id de cuerpo de RealInfo"),
-                    new PipelineParameterModel("noticiaId",false, "Id de noticia de RealInfo")
+                    new ServiceParameterModel("cuerpoId", true, "Id de cuerpo de RealInfo"),
+                    new ServiceParameterModel("noticiaId",false, "Id de noticia de RealInfo")
                 };
             }
         }
 
-        public List<PipelineParameterModel> ContractOutputs
+        public List<ServiceParameterModel> ContractOutputs
         {
             get
             {
-                return new List<PipelineParameterModel>()
+                return new List<ServiceParameterModel>()
                 {
-                    new PipelineParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new PipelineParameterModel("creationId",false, "Id de la imagen")
+                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
+                    new ServiceParameterModel("creationId",false, "Id de la imagen")
                 };
             }
         }

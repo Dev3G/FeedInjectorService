@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\PipelineParameterModel.cs" />
-    <Compile Include="ServiceInterfaces\IPipelineServiceProvider.cs" />
+    <Compile Include="Models\ServiceParameterModel.cs" />
+    <Compile Include="ServiceInterfaces\IWorkflowServiceProvider.cs" />
     <Compile Include="Models\ChangelogModel.cs" />
-    <Compile Include="Models\PipelineModel.cs" />
+    <Compile Include="Models\WorkflowModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

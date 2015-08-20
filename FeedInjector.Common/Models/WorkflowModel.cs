@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace FeedInjector.Common.Models
 {
     /// <summary>
-    /// Provides a standard communication object along the workflow execution
+    /// Provides a standard communication object along the executing workflow
     /// </summary>
-    public class PipelineModel
+    public class WorkflowModel
     {
         /// <summary>
         /// Stores data through the workflow
@@ -32,9 +32,9 @@ namespace FeedInjector.Common.Models
         public DateTime ExecutionDate { get; private set; }
 
         /// <summary>
-        /// Initializes the pipeline model
+        /// Initializes the workflow model
         /// </summary>
-        public PipelineModel()
+        public WorkflowModel()
         {
             this.Values = new Dictionary<string, string>();
             this.Changelog = new List<ChangelogModel>();

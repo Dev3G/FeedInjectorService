@@ -29,13 +29,13 @@ namespace FeedInjector.Infrastructure
                 foreach (var kvp in sp.Parameters)
                     simulation.Add(kvp.Key);
 
-                sp.ContractInputs.Where(input => input.Required).ToList().ForEach(input =>
+                sp.ContractInputs.Where(input => input.IsRequired).ToList().ForEach(input =>
                 {
                     if (!simulation.Contains(input.Name))
-                        throw new ArgumentException(string.Format("Service provider '{0}' needs a parameter '{1}' ({2}), either as a direct parameter or as an output argument of the previous service provider.", sp.ServiceName, input.Name, input.Description));
+                        throw new ArgumentException(string.Format("Service provider '{0}' needs a parameter '{1}' ({2}), either as a direct parameter or as an output argument of the previous service provider.", sp.Name, input.Name, input.Description));
                 });
 
-                foreach (var kvp in sp.ContractOutputs.Where(output => output.Required).ToList())
+                foreach (var kvp in sp.ContractOutputs.Where(output => output.IsRequired).ToList())
                     simulation.Add(kvp.Name);
             }
         }
@@ -46,7 +46,7 @@ namespace FeedInjector.Infrastructure
         /// <exception cref="OperationCanceledException"></exception>
         internal void Execute()
         {
-            var model = new PipelineModel(); //Initialize data transfer between service providers
+            var model = new WorkflowModel(); //Initialize data transfer between service providers
 
             foreach (var sp in Workflow)
             {
@@ -57,7 +57,7 @@ namespace FeedInjector.Infrastructure
                     sp.ProcessPipeline(model); //Execute the current pipeline operation
 
                     //Validate that the pipeline respected the output contract
-                    foreach (var kvp in sp.ContractOutputs.Where(output => output.Required).ToList())
+                    foreach (var kvp in sp.ContractOutputs.Where(output => output.IsRequired).ToList())
                         if (!model.Values.Keys.Any(key => kvp.Name == key))
                             throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' didn't respect it's required output contract. Key '{1}' ({2}) not found", sp, kvp.Name, kvp.Description));
                 }
@@ -65,7 +65,7 @@ namespace FeedInjector.Infrastructure
                 {
 
                     model.Exception = ex;
-                    throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' threw an exception", sp.ServiceName), ex);
+                    throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' threw an exception", sp.Name), ex);
                 }
             }
         }

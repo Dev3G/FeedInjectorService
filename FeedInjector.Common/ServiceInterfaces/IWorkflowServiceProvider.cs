@@ -15,12 +15,12 @@ namespace FeedInjector.Common.ServiceInterfaces
         /// <summary>
         /// Contract name of the service
         /// </summary>
-        string ServiceName { get; }
+        string Name { get; }
 
         /// <summary>
         /// Brief description of the pipeline service
         /// </summary>
-        string ServiceDescription { get; }
+        string Description { get; }
 
         /// <summary>
         /// Parameters specified in the service call
@@ -31,16 +31,16 @@ namespace FeedInjector.Common.ServiceInterfaces
         /// Executes an action over an object in the pipeline
         /// </summary>
         /// <param name="model"></param>
-        void ProcessPipeline(PipelineModel model);
+        void ProcessPipeline(WorkflowModel model);
 
         /// <summary>
         /// Specifies the required and optional input parameters
         /// </summary>
-        List<PipelineParameterModel> ContractInputs { get; }
+        List<ServiceParameterModel> ContractInputs { get; }
         
         /// <summary>
         /// Specifies the required and optional output parameters
         /// </summary>
-        List<PipelineParameterModel> ContractOutputs { get; }
+        List<ServiceParameterModel> ContractOutputs { get; }
     }
 }

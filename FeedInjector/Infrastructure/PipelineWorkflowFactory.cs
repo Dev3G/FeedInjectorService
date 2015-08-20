@@ -28,7 +28,7 @@ namespace FeedInjector.Infrastructure
         {
             var container = new ServiceProviderCompositionContainer();
 
-            var Workflow = new List<IPipelineServiceProvider>();
+            var workflow = new List<IPipelineServiceProvider>();
 
             var pipes = workflowDefinitionString.Split('@');
             foreach (var p in pipes)
@@ -37,21 +37,21 @@ namespace FeedInjector.Infrastructure
                 var closingIndex = p.LastIndexOf(')');
 
                 var pluginName = p.Substring(0, openIndex > 0 ? openIndex : p.Length);
-                var pipeline = container.GetProvider(pluginName);
+                var serviceProvider = container.GetProvider(pluginName);
 
 
                 if (openIndex > 0)
                     foreach (var kvpair in p.Remove(0, openIndex + 1).TrimEnd(')').Split(','))
                     {
                         var kvarr = kvpair.Split(':');
-                        pipeline.Parameters.Add(SanitizeParameterString(kvarr[0]), SanitizeParameterString(kvarr[1]));
+                        serviceProvider.Parameters.Add(SanitizeParameterString(kvarr[0]), SanitizeParameterString(kvarr[1]));
                     }
 
-                Workflow.Add(pipeline);
+                workflow.Add(serviceProvider);
 
             }
 
-            var pipeWorkflow = new PipelineWorkflow(Workflow);
+            var pipeWorkflow = new PipelineWorkflow(workflow);
             pipeWorkflow.Validate();
             return pipeWorkflow;
         }
