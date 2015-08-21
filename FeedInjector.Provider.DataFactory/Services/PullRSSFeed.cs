@@ -11,6 +11,11 @@ namespace FeedInjector.Provider.DataFactory
     [Export(typeof(IPipelineServiceProvider))]
     [Export(PullRssFeedService.ContractName, typeof(IPipelineServiceProvider))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
+
+    [ServiceParameter(ServiceParameterType.Input, "imgPath", true, "Ruta donde se guarda imagen")]
+    [ServiceParameter(ServiceParameterType.Input, "imgId", true, "Id de la imagen")]
+    [ServiceParameter(ServiceParameterType.Output, "imgPath", true, "Ruta donde se guarda imagen")]
+    [ServiceParameter(ServiceParameterType.Output, "creationId", false, "Id de la imagen")]
     public class PullRssFeedService : IPipelineServiceProvider
     {
         public const string ContractName = "PullRssFeed";
@@ -29,31 +34,6 @@ namespace FeedInjector.Provider.DataFactory
             get
             {
                 return "Pull rss feed from Data Factory";
-            }
-        }
-
-
-        public List<ServiceParameterModel> ContractInputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new ServiceParameterModel("imgId", true, "Id de la imagen")
-                };
-            }
-        }
-
-        public List<ServiceParameterModel> ContractOutputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new ServiceParameterModel("creationId",false, "Id de la imagen")
-                };
             }
         }
     }

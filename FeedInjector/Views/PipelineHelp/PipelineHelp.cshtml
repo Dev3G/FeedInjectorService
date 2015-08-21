@@ -1,0 +1,31 @@
+﻿<style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+</style>
+<article class="markdown-body">
+    <h1>FeedInjector</h1>
+    <h2>Parameter syntax    </h2>
+    Example call: 
+    <blockquote>/?workflow=PullDataFactoryService(cuerpoId:val1,noticiaId:val2)&#64;PullRssFeed</blockquote>
+    <h3>Escape characters</h3>
+    <ul>
+        <li><strong>{comma}</strong> ,</li>
+        <li><strong>{at}</strong> &#64;</li>
+    </ul>
+    <h2>Available pipeline controllers</h2>
+    @foreach (var sp in Model)
+    {
+        <h3>@sp.Name</h3>
+    <blockquote>@sp.Description</blockquote>
+        <ul>
+            @foreach (var p in sp.Parameters)
+            {
+                <li>@(p.IsRequired ? "Required" : "Optional") @p.Type <strong>@p.Name</strong> <blockquote>@p.Description</blockquote></li>
+            }
+        </ul>
+    }
+</article>

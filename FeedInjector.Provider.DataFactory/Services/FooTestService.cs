@@ -12,6 +12,11 @@ namespace FeedInjector.Provider.DataFactory.Services
     [Export(typeof(IPipelineServiceProvider))]
     [Export(FooTestService.ContractName, typeof(IPipelineServiceProvider))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
+
+    [ServiceParameter(ServiceParameterType.Input, "cuerpoId", true, "Id de cuerpo de RealInfo")]
+    [ServiceParameter(ServiceParameterType.Input, "noticiaId", false, "Id de noticia de RealInfo")]
+    [ServiceParameter(ServiceParameterType.Output, "imgPath", true, "Ruta donde se guarda imagen")]
+    [ServiceParameter(ServiceParameterType.Output, "creationId", false, "Id de la imagen")]
     public class FooTestService : IPipelineServiceProvider
     {
         public const string ContractName = "FooTestService";
@@ -34,32 +39,7 @@ namespace FeedInjector.Provider.DataFactory.Services
         {
             get
             {
-                return "test con yonatan";
-            }
-        }
-
-
-        public List<ServiceParameterModel> ContractInputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("cuerpoId", true, "Id de cuerpo de RealInfo"),
-                    new ServiceParameterModel("noticiaId",false, "Id de noticia de RealInfo")
-                };
-            }
-        }
-
-        public List<ServiceParameterModel> ContractOutputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new ServiceParameterModel("creationId",false, "Id de la imagen")
-                };
+                return "test";
             }
         }
     }

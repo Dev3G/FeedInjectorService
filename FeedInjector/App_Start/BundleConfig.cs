@@ -21,7 +21,8 @@ namespace FeedInjector
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/github-markdown.css",
                       "~/Content/site.css"));
         }
     }

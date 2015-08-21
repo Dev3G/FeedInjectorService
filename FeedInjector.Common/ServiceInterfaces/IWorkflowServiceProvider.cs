@@ -32,15 +32,5 @@ namespace FeedInjector.Common.ServiceInterfaces
         /// </summary>
         /// <param name="model"></param>
         void ProcessPipeline(WorkflowModel model);
-
-        /// <summary>
-        /// Specifies the required and optional input parameters
-        /// </summary>
-        List<ServiceParameterModel> ContractInputs { get; }
-        
-        /// <summary>
-        /// Specifies the required and optional output parameters
-        /// </summary>
-        List<ServiceParameterModel> ContractOutputs { get; }
     }
 }

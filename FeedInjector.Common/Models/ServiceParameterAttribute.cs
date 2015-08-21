@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace FeedInjector.Common.Models
 {
+    [AttributeUsage(System.AttributeTargets.Class,AllowMultiple=true)]
     /// <summary>
     /// Contains the information necessary to execute a <typeparamref name="IPipelineParameterModel"/>
     /// </summary>
-    public class ServiceParameterModel
+    public class ServiceParameterAttribute : System.Attribute
     {
-        public ServiceParameterModel(string name, bool required, string description = null)
+        public ServiceParameterAttribute(ServiceParameterType type, string name, bool isRequired, string description = null)
         {
             this.Name = name;
-            this.IsRequired = required;
+            this.IsRequired = isRequired;
             this.Description = description ?? string.Empty;
+            this.Type = type;
         }
 
         /// <summary>
@@ -32,5 +34,16 @@ namespace FeedInjector.Common.Models
         /// Whether the parameter is required or not
         /// </summary>
         public bool IsRequired { get; set; }
+
+        /// <summary>
+        /// Whether it's an input or an output parameter
+        /// </summary>
+        public ServiceParameterType Type { get; set; }
+    }
+
+    public enum ServiceParameterType
+    {
+        Input,
+        Output
     }
 }

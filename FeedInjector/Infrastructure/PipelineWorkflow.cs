@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FeedInjector.Infrastructure.Extensions;
 
 namespace FeedInjector.Infrastructure
 {
@@ -29,14 +30,12 @@ namespace FeedInjector.Infrastructure
                 foreach (var kvp in sp.Parameters)
                     simulation.Add(kvp.Key);
 
-                sp.ContractInputs.Where(input => input.IsRequired).ToList().ForEach(input =>
-                {
-                    if (!simulation.Contains(input.Name))
-                        throw new ArgumentException(string.Format("Service provider '{0}' needs a parameter '{1}' ({2}), either as a direct parameter or as an output argument of the previous service provider.", sp.Name, input.Name, input.Description));
-                });
+                foreach (var inputParameter in sp.GetServiceParameters(ServiceParameterType.Input).Where(p => p.IsRequired))
+                    if (!simulation.Contains(inputParameter.Name))
+                        throw new ArgumentException(string.Format("Service provider '{0}' needs a parameter '{1}' ({2}), either as a direct parameter or as an output parameter of the previous service provider in the pipeline chain.", sp.Name, inputParameter.Name, inputParameter.Description));
 
-                foreach (var kvp in sp.ContractOutputs.Where(output => output.IsRequired).ToList())
-                    simulation.Add(kvp.Name);
+                foreach (var outputParameter in sp.GetServiceParameters(ServiceParameterType.Output).Where(p => p.IsRequired))
+                    simulation.Add(outputParameter.Name);
             }
         }
 
@@ -57,7 +56,7 @@ namespace FeedInjector.Infrastructure
                     sp.ProcessPipeline(model); //Execute the current pipeline operation
 
                     //Validate that the pipeline respected the output contract
-                    foreach (var kvp in sp.ContractOutputs.Where(output => output.IsRequired).ToList())
+                    foreach (var kvp in sp.GetServiceParameters(ServiceParameterType.Output).Where(output => output.IsRequired).ToList())
                         if (!model.Values.Keys.Any(key => kvp.Name == key))
                             throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' didn't respect it's required output contract. Key '{1}' ({2}) not found", sp, kvp.Name, kvp.Description));
                 }

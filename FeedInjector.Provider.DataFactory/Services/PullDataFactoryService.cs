@@ -11,6 +11,11 @@ namespace FeedInjector.Provider.DataFactory
     [Export(typeof(IPipelineServiceProvider))]
     [Export(PullDataFactoryService.ContractName, typeof(IPipelineServiceProvider))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
+
+    [ServiceParameter(ServiceParameterType.Input, "ftpUser", true, "Ftp username")]
+    [ServiceParameter(ServiceParameterType.Input, "ftpPassword", false, "Ftp password")]
+    [ServiceParameter(ServiceParameterType.Output, "imgPath", true, "Ruta donde se guarda imagen")]
+    [ServiceParameter(ServiceParameterType.Output, "imgId", true, "Id de la imagen")]
     public class PullDataFactoryService : IPipelineServiceProvider
     {
         public const string ContractName = "PullDataFactoryService";
@@ -28,31 +33,6 @@ namespace FeedInjector.Provider.DataFactory
             get
             {
                 return "Pull FTP soccer data from DataFactory";
-            }
-        }
-
-
-        public List<ServiceParameterModel> ContractInputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("ftpUser", true, "Id de cuerpo de RealInfo"),
-                    new ServiceParameterModel("ftpPassword",false, "Id de noticia de RealInfo")
-                };
-            }
-        }
-
-        public List<ServiceParameterModel> ContractOutputs
-        {
-            get
-            {
-                return new List<ServiceParameterModel>()
-                {
-                    new ServiceParameterModel("imgPath", true, "Ruta donde se guarda imagen"),
-                    new ServiceParameterModel("imgId",true, "Id de la imagen")
-                };
             }
         }
     }

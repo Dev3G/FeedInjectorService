@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ServiceParameterModel.cs" />
+    <Compile Include="Models\ServiceParameterAttribute.cs" />
     <Compile Include="ServiceInterfaces\IWorkflowServiceProvider.cs" />
     <Compile Include="Models\ChangelogModel.cs" />
     <Compile Include="Models\WorkflowModel.cs" />
