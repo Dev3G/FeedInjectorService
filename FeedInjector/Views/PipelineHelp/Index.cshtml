@@ -20,7 +20,8 @@
     @foreach (var sp in Model)
     {
         <h3>@sp.Name</h3>
-    <blockquote>@sp.Description</blockquote>
+        @sp.Description
+        <blockquote>@sp.ExampleCall</blockquote>
         <ul>
             @foreach (var p in sp.Parameters)
             {

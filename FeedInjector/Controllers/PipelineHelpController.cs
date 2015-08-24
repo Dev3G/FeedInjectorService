@@ -30,33 +30,24 @@ namespace FeedInjector.Controllers
 
             foreach (var p in providers)
             {
-                var prov = new { Name = p.Name, Description = p.Description, Parameters = new List<ServiceParameterAttribute>() };
-                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Input).Where(i => i.IsRequired).ToList());
-                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Input).Where(i => !i.IsRequired).ToList());
-                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Output).Where(i => i.IsRequired).ToList());
-                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Output).Where(i => !i.IsRequired).ToList());
+                var call = p.Name + "(";
+                int i = 1;
+                foreach (var input in p.GetServiceParameters(ServiceParameterType.Input))
+                    call += string.Format("{0}: val{1},", input.Name, i++);
+                call = call.TrimEnd(',');
+                call = call.EndsWith("(") ? call.TrimEnd('(') : call + ")";
+
+                var prov = new { Name = p.Name, Description = p.Description, ExampleCall = call, Parameters = new List<ServiceParameterAttribute>() };
+                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Input).Where(input => input.IsRequired).ToList());
+                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Input).Where(input => !input.IsRequired).ToList());
+                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Output).Where(input => input.IsRequired).ToList());
+                prov.Parameters.AddRange(p.GetServiceParameters(ServiceParameterType.Output).Where(input => !input.IsRequired).ToList());
+
+                
                 provlist.Add(ToExpando(prov));
-
-                response.AppendLine(string.Format("<h3>{0}</h3><markdown>{1}</markdown>", p.Name, p.Description));
-
-                response.AppendLine("<ul>");
-                foreach (var param in p.GetServiceParameters(ServiceParameterType.Input).Where(i => i.IsRequired).ToList())
-                    response.AppendLine(string.Format("<li><strong>[Input,Required]</strong> {0}: {1}</li>", param.Name, param.Description));
-                
-                foreach (var param in p.GetServiceParameters(ServiceParameterType.Input).Where(i => !i.IsRequired).ToList())
-                    response.AppendLine(string.Format("<li><strong>[Input,Optional]</strong> {0}: {1}</li>", param.Name, param.Description));
-                
-                foreach (var param in p.GetServiceParameters(ServiceParameterType.Output).Where(i => i.IsRequired).ToList())
-                    response.AppendLine(string.Format("<li><strong>[Output,Required]</strong> {0}: {1}</li>", param.Name, param.Description));
-                
-                foreach (var param in p.GetServiceParameters(ServiceParameterType.Output).Where(i => !i.IsRequired).ToList())
-                    response.AppendLine(string.Format("<li><strong>[Output,Optional]</strong> {0}: {1}</li>", param.Name, param.Description));
-                
-                response.AppendLine("</ul>");
-
             }
 
-            ViewBag.Controllers = response.ToString();
+            
 
             return View(provlist);
         }
