@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FeedInjector.Common.Models
+namespace FeedInjector.Common.Infrastructure
 {
     [AttributeUsage(System.AttributeTargets.Class,AllowMultiple=true)]
     /// <summary>

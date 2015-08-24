@@ -1,4 +1,4 @@
-﻿using FeedInjector.Common.ServiceInterfaces;
+﻿using FeedInjector.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FeedInjector.Common.Models
 {
     /// <summary>
-    /// Describes action performed by a service
+    /// Describes an saction performed by a service provider
     /// </summary>
     public class ChangelogModel
     {

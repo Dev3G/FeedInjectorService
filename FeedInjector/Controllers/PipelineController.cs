@@ -1,5 +1,5 @@
 ﻿using FeedInjector.Common.Models;
-using FeedInjector.Common.ServiceInterfaces;
+using FeedInjector.Common.Services;
 using FeedInjector.Filters;
 using FeedInjector.Infrastructure;
 using FeedInjector.Models;
@@ -47,13 +47,26 @@ namespace FeedInjector.Controllers
 
         //?workflow=PullRssFeed(par1:val1,par2:val2)@PullDataFactoryService(par3:val3,par4:val4)
         [Route("PipePlugin")]
-        public PipelineWorkflow Get([FromUri]string workflow)
+        public HttpResponseMessage Get([FromUri]string workflow)
         {
-            var providerWorkflow = PipelineWorkflowFactory.CreateWorkflow(workflow);
+            LogExtensions.Log.DebugCall(() => new { Workflow = workflow });
 
-            providerWorkflow.Execute();
+            try
+            {
+                var providerWorkflow = PipelineWorkflowFactory.CreateWorkflow(workflow);
 
-            return providerWorkflow;
+                var model = providerWorkflow.Execute();
+
+                LogExtensions.Log.InfoCall(() => new { Info = "Workflow execution completed" });
+
+                return Request.CreateResponse(HttpStatusCode.OK, "OK");
+            }
+            catch (Exception ex)
+            {
+                LogExtensions.Log.ErrorCall(ex, () => new { Workflow = workflow });
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

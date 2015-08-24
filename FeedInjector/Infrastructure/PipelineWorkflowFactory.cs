@@ -1,5 +1,5 @@
 ﻿using FeedInjector.Common.Models;
-using FeedInjector.Common.ServiceInterfaces;
+using FeedInjector.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

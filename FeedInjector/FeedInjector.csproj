@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
       <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
@@ -200,7 +204,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Extensions\LogExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\PipelineServiceProviderExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\StringFormatExtensions.cs" />
     <Compile Include="Infrastructure\PipelineWorkflow.cs" />
     <Compile Include="Infrastructure\ServiceProviderCompositionContainer.cs" />
     <Compile Include="Infrastructure\PipelineWorkflowFactory.cs" />

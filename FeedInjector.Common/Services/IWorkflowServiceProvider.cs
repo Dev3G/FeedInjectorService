@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FeedInjector.Common.ServiceInterfaces
+namespace FeedInjector.Common.Services
 {
     /// <summary>
     /// A service provider that interacts with objects in a workflow

@@ -1,4 +1,4 @@
-﻿using FeedInjector.Common.ServiceInterfaces;
+﻿using FeedInjector.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

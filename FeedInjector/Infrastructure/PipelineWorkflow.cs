@@ -1,5 +1,6 @@
 ﻿using FeedInjector.Common.Models;
-using FeedInjector.Common.ServiceInterfaces;
+using FeedInjector.Common.Services;
+using FeedInjector.Common.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,19 +44,21 @@ namespace FeedInjector.Infrastructure
         /// Executes the pipeline for each service provider in the workflow
         /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
-        internal void Execute()
+        internal WorkflowModel Execute()
         {
             var model = new WorkflowModel(); //Initialize data transfer between service providers
 
             foreach (var sp in Workflow)
             {
-                model.Changelog.Add(new ChangelogModel(sp)); //Tag each action
+                var change = new ChangelogModel(sp);
+                LogExtensions.Log.DebugCall(() => new { Change = change });
+                model.Changelog.Add(change); //Tag each action
 
                 try
                 {
                     sp.ProcessPipeline(model); //Execute the current pipeline operation
 
-                    //Validate that the pipeline respected the output contract
+                    //Validate that the service provider respected the output contract
                     foreach (var kvp in sp.GetServiceParameters(ServiceParameterType.Output).Where(output => output.IsRequired).ToList())
                         if (!model.Values.Keys.Any(key => kvp.Name == key))
                             throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' didn't respect it's required output contract. Key '{1}' ({2}) not found", sp, kvp.Name, kvp.Description));
@@ -67,6 +70,8 @@ namespace FeedInjector.Infrastructure
                     throw new OperationCanceledException(string.Format("Workflow was cancelled because '{0}' threw an exception", sp.Name), ex);
                 }
             }
+
+            return model;
         }
 
     }

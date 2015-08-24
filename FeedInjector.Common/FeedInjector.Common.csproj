@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ServiceParameterAttribute.cs" />
-    <Compile Include="ServiceInterfaces\IWorkflowServiceProvider.cs" />
+    <Compile Include="Infastructure\ServiceParameterAttribute.cs" />
+    <Compile Include="Services\IWorkflowServiceProvider.cs" />
     <Compile Include="Models\ChangelogModel.cs" />
     <Compile Include="Models\WorkflowModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

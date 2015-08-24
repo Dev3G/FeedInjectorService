@@ -1,6 +1,7 @@
 ﻿using FeedInjector.Common.Models;
 using FeedInjector.Infrastructure;
 using FeedInjector.Infrastructure.Extensions;
+using FeedInjector.Common.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
