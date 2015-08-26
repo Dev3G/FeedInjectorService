@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace FeedInjector.Provider.DataFactory.Services
 {
-    [Export(typeof(IPipelineServiceProvider))]
     [Export(FooTestService.ContractName, typeof(IPipelineServiceProvider))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
 
@@ -24,7 +23,6 @@ namespace FeedInjector.Provider.DataFactory.Services
 
         public string Name { get { return ContractName; } }
 
-        public Dictionary<string, string> Parameters { get; set; }
 
         public void ProcessPipeline(Common.Models.WorkflowModel model)
         {

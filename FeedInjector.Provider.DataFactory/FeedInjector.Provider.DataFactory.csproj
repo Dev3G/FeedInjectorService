@@ -46,6 +46,7 @@
     <Compile Include="Models\DataFactoryPushModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PullRSSFeed.cs" />
+    <Compile Include="Services\RssParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeedInjector.Common\FeedInjector.Common.csproj">

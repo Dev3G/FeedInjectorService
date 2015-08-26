@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 namespace FeedInjector.Provider.DataFactory
 {
-    [Export(typeof(IPipelineServiceProvider))]
     [Export(PullRssFeedService.ContractName, typeof(IPipelineServiceProvider))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
 
@@ -22,8 +21,6 @@ namespace FeedInjector.Provider.DataFactory
         public const string ContractName = "PullRssFeed";
 
         public string Name { get { return ContractName; } }
-
-        public Dictionary<string, string> Parameters { get; set; }
 
         public void ProcessPipeline(Common.Models.WorkflowModel model)
         {

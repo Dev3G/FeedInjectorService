@@ -2,7 +2,6 @@
 using FeedInjector.Common.Services;
 using FeedInjector.Filters;
 using FeedInjector.Infrastructure;
-using FeedInjector.Models;
 using FeedInjector.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
@@ -23,28 +22,6 @@ namespace FeedInjector.Controllers
 
     public class PipelineController : ApiController
     {
-        //[Route("Evento")]
-        //public EventoModel Post([FromBody]EventoModel evento)
-        //{
-        //    return evento;
-        //}
-
-        //[Route("Resultado")]
-        //public ResultadoModel Post([FromBody]ResultadoModel resultado)
-        //{
-        //    return resultado;
-        //}
-
-        [Route("PostPlugin")]
-        public string Post([FromBody]PipelineWorkflowModel plugin)
-        {
-            var container = new ServiceProviderCompositionContainer();
-
-            var pipeline = container.GetProvider(plugin.Name);
-
-            return pipeline.Description;
-        }
-
         //?workflow=PullRssFeed(par1:val1,par2:val2)@PullDataFactoryService(par3:val3,par4:val4)
         [Route("PipePlugin")]
         public HttpResponseMessage Get([FromUri]string workflow)

@@ -23,11 +23,6 @@ namespace FeedInjector.Common.Services
         string Description { get; }
 
         /// <summary>
-        /// Parameters specified in the service call
-        /// </summary>
-        Dictionary<string, string> Parameters { get; set; }
-
-        /// <summary>
         /// Executes an action over an object in the pipeline
         /// </summary>
         /// <param name="model"></param>

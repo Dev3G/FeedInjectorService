@@ -29,12 +29,11 @@ namespace FeedInjector.Infrastructure
             try
             {
                 var provider = Container.GetExport<IPipelineServiceProvider>(contractName).Value;
-                provider.Parameters = new Dictionary<string, string>();
                 return provider;
             }
             catch (Exception ex)
             {
-                throw new CompositionContractMismatchException(string.Format("'{0}' not found. Available components are exposed through the /Help url", ex));
+                throw new CompositionContractMismatchException(string.Format("Service provider '{0}' not found. Available components are exposed through the /PipelineHelp url", ex));
             }
         }
 

@@ -12,14 +12,34 @@ namespace FeedInjector.Common.Models
     public class WorkflowModel
     {
         /// <summary>
-        /// Stores data through the workflow
+        /// Gets or sets a data object to be available to all the pipeline service providers in the chain during the workflow execution
         /// </summary>
-        public Dictionary<string,string> Values { get; set; }
+        /// <param name="key">The key to the object</param>
+        /// <returns></returns>
+        public object this[string key] 
+        {
+            get
+            {
+                return Values.ContainsKey(key) ? Values[key] : null;
+            }
+            set
+            {
+                if (Values.ContainsKey(key))
+                    Values[key] = value;
+                else
+                    Values.Add(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Key based data object that is expanded through the workflow
+        /// </summary>
+        public Dictionary<string, object> Values { get; private set; }
 
         /// <summary>
         /// Logs every service provider action through the workflow
         /// </summary>
-        public List<ChangelogModel> Changelog { get; set; }
+        public List<ChangelogModel> Changelog { get; private set; }
 
         /// <summary>
         /// Stores an exception for later use
@@ -36,7 +56,7 @@ namespace FeedInjector.Common.Models
         /// </summary>
         public WorkflowModel()
         {
-            this.Values = new Dictionary<string, string>();
+            this.Values = new Dictionary<string, object>();
             this.Changelog = new List<ChangelogModel>();
             this.ExecutionDate = DateTime.Now;
         }

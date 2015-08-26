@@ -12,23 +12,13 @@ namespace FeedInjector.Infrastructure
         /// <summary>
         /// Creates an instance of a valid service provider workflow 
         /// </summary>
-        /// <param name="workflow">List of service providers representing the workflow</param>
-        public static PipelineWorkflow CreateWorkflow(List<IPipelineServiceProvider> workflow)
-        {
-            var pipeWorkflow = new PipelineWorkflow(workflow);
-            pipeWorkflow.Validate();
-            return pipeWorkflow;
-        }
-
-        /// <summary>
-        /// Creates an instance of a valid service provider workflow 
-        /// </summary>
         /// <param name="workflowDefinitionString">Example call: PullDataFactoryService(cuerpoId:val1,noticiaId:val2)@PullRssFeed</param>
         public static PipelineWorkflow CreateWorkflow(string workflowDefinitionString)
         {
             var container = new ServiceProviderCompositionContainer();
 
             var workflow = new List<IPipelineServiceProvider>();
+            var serviceParameterWorkflow = new Dictionary<IPipelineServiceProvider, Dictionary<string, string>>();
 
             var pipes = workflowDefinitionString.Split('@');
             foreach (var p in pipes)
@@ -40,19 +30,22 @@ namespace FeedInjector.Infrastructure
                 var serviceProvider = container.GetProvider(pluginName);
 
 
+                var serviceParameters = new Dictionary<string, string>();
                 if (openIndex > 0)
                     foreach (var kvpair in p.Remove(0, openIndex + 1).TrimEnd(')').Split(','))
                     {
                         var kvarr = kvpair.Split(':');
-                        serviceProvider.Parameters.Add(SanitizeParameterString(kvarr[0]), SanitizeParameterString(kvarr[1]));
+                        serviceParameters.Add(SanitizeParameterString(kvarr[0]), SanitizeParameterString(kvarr[1]));
                     }
 
                 workflow.Add(serviceProvider);
-
+                serviceParameterWorkflow.Add(serviceProvider, serviceParameters);
             }
 
-            var pipeWorkflow = new PipelineWorkflow(workflow);
-            pipeWorkflow.Validate();
+            var pipeWorkflow = new PipelineWorkflow(workflow, serviceParameterWorkflow);
+
+            pipeWorkflow.Validate(); //Validate if all input contracts are satisfied
+
             return pipeWorkflow;
         }
 
