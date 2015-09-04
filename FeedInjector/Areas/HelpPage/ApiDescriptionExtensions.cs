@@ -14,6 +14,9 @@ namespace FeedInjector.Areas.HelpPage
         /// <returns>The ID as a string.</returns>
         public static string GetFriendlyId(this ApiDescription description)
         {
+            if (description == null)
+                throw new ArgumentNullException("description");
+
             string path = description.RelativePath;
             string[] urlParts = path.Split('?');
             string localPath = urlParts[0];

@@ -24,13 +24,11 @@ namespace FeedInjector.Infrastructure
             foreach (var p in pipes)
             {
                 var openIndex = p.IndexOf('(');
-                var closingIndex = p.LastIndexOf(')');
 
                 var pluginName = p.Substring(0, openIndex > 0 ? openIndex : p.Length);
                 var serviceProvider = container.GetProvider(pluginName);
-
-
                 var serviceParameters = new Dictionary<string, string>();
+
                 if (openIndex > 0)
                     foreach (var kvpair in p.Remove(0, openIndex + 1).TrimEnd(')').Split(','))
                     {

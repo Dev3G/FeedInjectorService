@@ -24,8 +24,6 @@ namespace FeedInjector.Controllers
             var container = new ServiceProviderCompositionContainer();
             var providers = container.GetAllProviders();
 
-            var response = new StringBuilder();
-
             var provlist = new List<ExpandoObject>();
 
 

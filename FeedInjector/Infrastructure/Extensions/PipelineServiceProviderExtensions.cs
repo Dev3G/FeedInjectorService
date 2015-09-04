@@ -10,6 +10,12 @@ namespace FeedInjector.Infrastructure.Extensions
 {
     public static class PipelineServiceProviderExtensions
     {
+        /// <summary>
+        /// Returns a <list type="ServiceParameterAttribute">list</list> of attrbutes that match the query
+        /// </summary>
+        /// <param name="sp"><typeparamref name="IPipelineServiceProvider">Pipeline Serivce Provider</typeparamref> to query</param>
+        /// <param name="serviceParameterType">The type of <typeparamref name="ServiceParameterAttribute">ServiceParameterAttributes</typeparamref> to query</param>
+        /// <returns></returns>
         internal static List<ServiceParameterAttribute> GetServiceParameters(this IPipelineServiceProvider sp, ServiceParameterType serviceParameterType)
         {
             List<ServiceParameterAttribute> paramList = new List<ServiceParameterAttribute>();
